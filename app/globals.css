@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --void: #010205;
+  --ink: #0a0a0c;
+  --accent: #c7cbd1;
+  --accent-deep: #8e97a3;
+  --accent-light: #eef1f5;
+  --platinum: #c7cbd1;
+}
+
+@layer base {
+  html {
+    background: var(--void);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--void);
+    color: rgba(255, 255, 255, 0.9);
+    font-feature-settings: "cv11", "ss01", "ss03";
+  }
+  ::selection {
+    background: rgba(199, 203, 209, 0.3);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* White that warms into champagne at the foot of the letterforms. */
+  .text-heading {
+    background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.94) 52%, #d9dde3 84%, var(--accent-deep) 118%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 28px rgba(199, 203, 209, 0.08));
+    padding-bottom: 0.06em; /* keep descenders inside the clip */
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  /* Pill with a hairline platinum gradient border. */
+  .btn-accent {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+    background:
+      linear-gradient(rgba(8, 10, 13, 0.88), rgba(8, 10, 13, 0.88)) padding-box,
+      linear-gradient(120deg, var(--accent-light), var(--accent) 45%, rgba(142, 151, 163, 0.5)) border-box;
+    transition:
+      box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-accent:hover {
+    box-shadow:
+      0 0 28px -6px rgba(199, 203, 209, 0.45),
+      inset 0 0 14px rgba(199, 203, 209, 0.12);
+    background:
+      linear-gradient(rgba(22, 26, 32, 0.9), rgba(13, 16, 20, 0.9)) padding-box,
+      linear-gradient(120deg, #fff, var(--accent-light) 45%, rgba(142, 151, 163, 0.7)) border-box;
+  }
+  .btn-accent:active {
+    transform: scale(0.98);
+  }
+  .btn-accent-lg {
+    box-shadow: 0 0 40px -12px rgba(199, 203, 209, 0.35);
+  }
+
+  .link-underline {
+    background: linear-gradient(90deg, var(--accent), var(--accent-light)) left bottom / 0% 1px no-repeat;
+    padding-bottom: 2px;
+    transition:
+      background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.3s;
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+
+  /* Faint column guides at the content edges. */
+  .grid-hints {
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.035)) left / 1px 100% no-repeat,
+      linear-gradient(rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.035)) right / 1px 100% no-repeat;
+    background-origin: content-box;
+    background-clip: content-box;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
+  }
+}
+
+/* ---------------------------------- Motion --------------------------------- */
+
+.sweep {
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(220, 228, 238, 0.06) 42%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(220, 228, 238, 0.06) 58%,
+    transparent 80%
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  animation: sweep 7s cubic-bezier(0.45, 0, 0.2, 1) 1.2s infinite;
+}
+@keyframes sweep {
+  0% { transform: translateX(-120%) skewX(-12deg); }
+  38%, 100% { transform: translateX(260%) skewX(-12deg); }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.55); opacity: 0.9; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, var(--accent-light), transparent);
+  animation: cue 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes cue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sweep,
+  .pulse-ring,
+  .scroll-cue::after {
+    animation: none;
+  }
+}
