@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useState } from "react";
+import { useLang } from "@/lib/i18n";
 import { APPLY_URL, BRAND, NAV, NavId, activeNav, scrollToId } from "@/lib/site";
 import { useStoryProgress } from "@/lib/useStoryProgress";
 
@@ -10,6 +11,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export default function Navbar() {
   const { scrollY } = useScroll();
   const progress = useStoryProgress();
+  const { t, toggle } = useLang();
   const [solid, setSolid] = useState(false);
   const [active, setActive] = useState<NavId>("overview");
   const [open, setOpen] = useState(false);
@@ -55,7 +57,7 @@ export default function Navbar() {
                     active === item.id ? "text-white" : "text-white/55 hover:text-white/90"
                   }`}
                 >
-                  {item.label}
+                  {t.nav[item.id]}
                   {active === item.id && (
                     <motion.span
                       layoutId="nav-underline"
@@ -69,12 +71,20 @@ export default function Navbar() {
           </ul>
 
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggle}
+              aria-label={t.switchLangLabel}
+              className="text-[12px] text-white/55 transition-colors duration-300 hover:text-white/90"
+            >
+              {t.switchLang}
+            </button>
             <a href={APPLY_URL} onClick={go("apply")} className="btn-accent px-4 py-1.5 text-[12px]">
-              Apply Now
+              {t.applyNow}
             </a>
             <button
               type="button"
-              aria-label={open ? "Close menu" : "Open menu"}
+              aria-label={open ? t.closeMenu : t.openMenu}
               aria-expanded={open}
               onClick={() => setOpen((o) => !o)}
               className="relative -mr-2 flex h-9 w-9 items-center justify-center md:hidden"
@@ -107,7 +117,7 @@ export default function Navbar() {
                       active === item.id ? "text-white" : "text-white/60"
                     }`}
                   >
-                    {item.label}
+                    {t.nav[item.id]}
                   </a>
                 </li>
               ))}

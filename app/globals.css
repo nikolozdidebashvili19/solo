@@ -45,6 +45,9 @@
     filter: drop-shadow(0 0 28px rgba(199, 203, 209, 0.08));
     padding-bottom: 0.06em; /* keep descenders inside the clip */
   }
+  .text-heading:lang(ka) {
+    padding-bottom: 0.22em; /* Georgian descenders (ყ, ჯ, ლ) drop much further */
+  }
 
   .glass {
     background: rgba(255, 255, 255, 0.035);

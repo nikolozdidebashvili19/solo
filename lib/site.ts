@@ -5,14 +5,14 @@ export const BRAND = "SOLO";
 /** Replace with the real application flow. */
 export const APPLY_URL = "#apply";
 
-/** Nav targets, expressed as story progress (anchors are placed inside the pinned section). */
+/** Nav targets (labels live in lib/i18n), expressed as story progress (anchors are placed inside the pinned section). */
 export const NAV = [
-  { id: "overview", label: "Overview", at: 0 },
-  { id: "benefits", label: "Benefits", at: 0.52 },
-  { id: "rewards", label: "Rewards", at: 0.58 },
-  { id: "security", label: "Security", at: 0.77 },
-  { id: "features", label: "Features", at: 0.28 },
-  { id: "apply", label: "Apply", at: 1 },
+  { id: "overview", at: 0 },
+  { id: "benefits", at: 0.52 },
+  { id: "rewards", at: 0.58 },
+  { id: "security", at: 0.77 },
+  { id: "features", at: 0.28 },
+  { id: "apply", at: 1 },
 ] as const;
 
 export type NavId = (typeof NAV)[number]["id"];

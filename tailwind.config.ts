@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
@@ -16,14 +17,17 @@ const config: Config = {
         platinum: "#C7CBD1",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Segoe UI", "sans-serif"],
+        sans: ["var(--font-inter)", "var(--font-georgian)", "-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Segoe UI", "sans-serif"],
       },
       letterSpacing: {
         tightest: "-0.045em",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // `ka:` — Georgian runs wider and has deep descenders, so some type gets its own sizing.
+    plugin(({ addVariant }) => addVariant("ka", "&:lang(ka)")),
+  ],
 };
 
 export default config;

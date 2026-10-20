@@ -17,6 +17,7 @@ import {
   HERO_CARD,
   pct,
 } from "@/lib/sequence";
+import { useLang } from "@/lib/i18n";
 import { APPLY_URL, NAV, scrollToId } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -235,7 +236,7 @@ function FamilyLabels({ progress }: { progress: MotionValue<number> }) {
 
 function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <div className="mb-5 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-accent/90">
+    <div className="mb-5 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-accent/90 ka:tracking-[0.1em]">
       <span className="h-px w-6 bg-gradient-to-r from-accent to-accent/0" />
       {children}
     </div>
@@ -244,7 +245,7 @@ function Eyebrow({ children }: { children: ReactNode }) {
 
 function Point({ n, children }: { n: string; children: ReactNode }) {
   return (
-    <div className="flex gap-4 border-t border-white/[0.07] py-4">
+    <div className="flex gap-4 border-t border-white/[0.07] py-4 ka:py-3 ka:wide:py-4">
       <span className="pt-[3px] text-[11px] font-medium tabular-nums tracking-[0.12em] text-accent/80">{n}</span>
       <p className="text-[15px] leading-relaxed text-white/60 wide:text-[16px]">{children}</p>
     </div>
@@ -252,7 +253,8 @@ function Point({ n, children }: { n: string; children: ReactNode }) {
 }
 
 const sideBlock = "wide:w-[min(420px,29vw)]";
-const headline = "text-heading font-semibold tracking-tightest leading-[1.02]";
+const headline = "text-heading font-semibold tracking-tightest leading-[1.02] ka:tracking-tight ka:leading-[1.12]";
+const sectionTitle = "text-[clamp(2.25rem,4.2vw,4rem)] ka:text-[clamp(1.625rem,3.3vw,3.25rem)]";
 
 /* -------------------------------------------------------------------------- */
 /*  Story                                                                     */
@@ -262,6 +264,7 @@ export default function CardStory() {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(0);
+  const { t } = useLang();
 
   const { scrollYProgress: progress } = useScroll({
     target: sectionRef,
@@ -299,16 +302,16 @@ export default function CardStory() {
           <Callout
             {...FRONT_CARD.chip}
             side="left"
-            label="EMV chip"
-            caption="Chip-enabled card payments"
+            label={t.callouts.chip.label}
+            caption={t.callouts.chip.caption}
             progress={progress}
             win={[0.7, 0.735, 0.81, 0.845]}
           />
           <Callout
             {...FRONT_CARD.contactless}
             side="right"
-            label="Contactless"
-            caption="Tap to pay where accepted"
+            label={t.callouts.contactless.label}
+            caption={t.callouts.contactless.caption}
             progress={progress}
             win={[0.72, 0.755, 0.81, 0.845]}
           />
@@ -329,19 +332,19 @@ export default function CardStory() {
                 variants={rise}
                 className="mb-4 text-[11px] font-medium uppercase tracking-[0.32em] text-accent/90"
               >
-                SOLO Business · Preferred
+                {t.hero.eyebrow}
               </motion.p>
               <motion.h1
                 variants={rise}
-                className={`${headline} mx-auto text-[clamp(2.75rem,min(7vw,11svh),6.5rem)]`}
+                className={`${headline} mx-auto text-[clamp(2.75rem,min(7vw,11svh),6.5rem)] ka:text-[clamp(2.125rem,min(5.6vw,9svh),5.25rem)]`}
               >
-                Your Money. Elevated.
+                {t.hero.title}
               </motion.h1>
               <motion.p variants={rise} className="mt-4 text-[clamp(1.125rem,1.6vw,1.5rem)] font-medium tracking-tight text-white/85">
-                More than a card. A statement.
+                {t.hero.tagline}
               </motion.p>
               <motion.p variants={rise} className="mx-auto mt-3 max-w-[460px] text-[15px] leading-relaxed text-white/55 wide:text-[17px]">
-                A premium financial experience designed around the way you live, spend, and move.
+                {t.hero.body}
               </motion.p>
             </motion.div>
           </Beat>
@@ -353,24 +356,24 @@ export default function CardStory() {
             from="left"
             className={`absolute inset-x-6 bottom-[8svh] wide:inset-x-auto wide:bottom-auto wide:left-[6vw] wide:top-1/2 wide:-translate-y-1/2 ${sideBlock}`}
           >
-            <Reveal i={0}><Eyebrow>Design</Eyebrow></Reveal>
+            <Reveal i={0}><Eyebrow>{t.craft.eyebrow}</Eyebrow></Reveal>
             <Reveal i={1}>
-              <h2 className={`${headline} text-[clamp(2.25rem,4.2vw,4rem)]`}>Precision in every detail.</h2>
+              <h2 className={`${headline} ${sectionTitle}`}>{t.craft.title}</h2>
             </Reveal>
             <Reveal i={2}>
               <p className="mt-5 text-[16px] leading-relaxed text-white/60 wide:text-[17px]">
-                Crafted with a refined finish, considered proportions, and a distinctive premium design.
+                {t.craft.body1}
               </p>
             </Reveal>
             <Reveal i={3} className="hidden wide:block">
               <p className="mt-3 text-[17px] leading-relaxed text-white/60">
-                Every detail is designed to deliver a seamless experience, wherever life takes you.
+                {t.craft.body2}
               </p>
             </Reveal>
             <Reveal i={4} className="mt-7 hidden gap-2 wide:flex">
-              {["EMV chip", "Contactless", "Mastercard®"].map((t) => (
-                <span key={t} className="glass rounded-full px-3 py-1 text-[11px] tracking-[0.04em] text-white/70">
-                  {t}
+              {t.craft.chips.map((chip) => (
+                <span key={chip} className="glass rounded-full px-3 py-1 text-[11px] tracking-[0.04em] text-white/70">
+                  {chip}
                 </span>
               ))}
             </Reveal>
@@ -383,14 +386,16 @@ export default function CardStory() {
             from="right"
             className={`absolute inset-x-6 bottom-[6svh] wide:inset-x-auto wide:bottom-auto wide:right-[6vw] wide:top-1/2 wide:-translate-y-1/2 ${sideBlock}`}
           >
-            <Reveal i={0}><Eyebrow>Benefits</Eyebrow></Reveal>
+            <Reveal i={0}><Eyebrow>{t.benefits.eyebrow}</Eyebrow></Reveal>
             <Reveal i={1}>
-              <h2 className={`${headline} text-[clamp(2.25rem,4.2vw,4rem)]`}>Everyday spending, elevated.</h2>
+              <h2 className={`${headline} ${sectionTitle}`}>{t.benefits.title}</h2>
             </Reveal>
             <div className="mt-6">
-              <Reveal i={2}><Point n="01">Enjoy a premium payment experience wherever your card is accepted.</Point></Reveal>
-              <Reveal i={3}><Point n="02">Make eligible purchases with convenient contactless payments.</Point></Reveal>
-              <Reveal i={4}><Point n="03">Discover rewards and benefits designed around your lifestyle.</Point></Reveal>
+              {t.benefits.points.map((point, i) => (
+                <Reveal key={i} i={i + 2}>
+                  <Point n={String(i + 1).padStart(2, "0")}>{point}</Point>
+                </Reveal>
+              ))}
             </div>
           </Beat>
 
@@ -401,23 +406,23 @@ export default function CardStory() {
             from="left"
             className={`absolute inset-x-6 bottom-[6svh] wide:inset-x-auto wide:bottom-auto wide:left-[6vw] wide:top-1/2 wide:-translate-y-1/2 ${sideBlock}`}
           >
-            <Reveal i={0}><Eyebrow>Security</Eyebrow></Reveal>
+            <Reveal i={0}><Eyebrow>{t.security.eyebrow}</Eyebrow></Reveal>
             <Reveal i={1}>
-              <h2 className={`${headline} text-[clamp(2.25rem,4.2vw,4rem)]`}>Confidence in every transaction.</h2>
+              <h2 className={`${headline} ${sectionTitle}`}>{t.security.title}</h2>
             </Reveal>
             <Reveal i={2}>
               <p className="mt-5 text-[16px] leading-relaxed text-white/60 wide:text-[17px]">
-                Designed to make everyday payments simple and convenient.
+                {t.security.body1}
               </p>
             </Reveal>
             <Reveal i={3}>
               <p className="mt-3 text-[16px] leading-relaxed text-white/60 wide:text-[17px]">
-                Manage your card and monitor eligible transactions through a seamless digital experience.
+                {t.security.body2}
               </p>
             </Reveal>
             <Reveal i={4} className="hidden wide:block">
               <p className="mt-3 text-[17px] leading-relaxed text-white/60">
-                Experience modern payment technology with security features designed to help protect your account.
+                {t.security.body3}
               </p>
             </Reveal>
           </Beat>
@@ -429,16 +434,16 @@ export default function CardStory() {
             className="absolute inset-x-6 bottom-[7svh] text-center"
           >
             <Reveal i={0}>
-              <h2 className={`${headline} mx-auto text-[clamp(2.25rem,min(5vw,7.5svh),4.75rem)]`}>A better way to move money.</h2>
+              <h2 className={`${headline} mx-auto text-[clamp(2.25rem,min(5vw,7.5svh),4.75rem)] ka:text-[clamp(1.75rem,min(4.2vw,6.5svh),4rem)]`}>{t.final.title}</h2>
             </Reveal>
             <Reveal i={1}>
               <p className="mx-auto mt-4 max-w-[520px] text-[16px] leading-relaxed text-white/60 wide:text-[18px]">
-                Designed for your lifestyle. Built for everyday possibilities.
+                {t.final.body}
               </p>
             </Reveal>
             <Reveal i={2} className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-7">
               <a href={APPLY_URL} className="btn-accent btn-accent-lg px-8 py-3.5 text-[15px]">
-                Apply Now
+                {t.applyNow}
               </a>
               <a
                 href="#benefits"
@@ -448,12 +453,12 @@ export default function CardStory() {
                 }}
                 className="link-underline text-[15px] font-medium text-white/75 hover:text-white"
               >
-                Explore Card Benefits <span aria-hidden>›</span>
+                {t.final.explore} <span aria-hidden>›</span>
               </a>
             </Reveal>
             <Reveal i={3}>
               <p className="mt-6 text-[11px] tracking-wide text-white/35">
-                Terms, eligibility requirements, fees, and conditions apply.
+                {t.final.terms}
               </p>
             </Reveal>
           </Beat>
@@ -464,8 +469,8 @@ export default function CardStory() {
           style={{ opacity: cue }}
           className="pointer-events-none absolute inset-x-0 bottom-[3.5svh] flex flex-col items-center gap-3"
         >
-          <span className="text-[10px] uppercase tracking-[0.32em] text-white/40">
-            {loaded < 84 ? `Loading ${Math.round((loaded / 84) * 100)}%` : "Scroll to explore"}
+          <span className="text-[10px] uppercase tracking-[0.32em] text-white/40 ka:tracking-[0.12em]">
+            {loaded < 84 ? t.loading(Math.round((loaded / 84) * 100)) : t.scrollCue}
           </span>
           <span className="scroll-cue relative block h-9 w-px overflow-hidden bg-white/10" />
         </motion.div>
